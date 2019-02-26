@@ -47,6 +47,8 @@ class Main(object):
  		return Nodo(tablero)
 
 
+if __name__ == '__main__':
+	main = Main()
 
 
 
