@@ -141,13 +141,11 @@ class Main(object):
 
 	def pruebas(self):
 		print  ("=== pruebas main ===")
-		estado_inicial = self.conseguir_estado_inicial().conseguir_tablero()
-		#print (enumerate(estado_inicial))
+		
 
 
 if __name__ == '__main__':
 	main = Main()
-	#main.pruebas()
 
 
 
