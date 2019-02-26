@@ -1,0 +1,20 @@
+{
+  "name": "reinas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node servidor/app",
+    "start": "node servidor/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MathersII/Reinas.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MathersII/Reinas/issues"
+  },
+  "homepage": "https://github.com/MathersII/Reinas#readme"
+}

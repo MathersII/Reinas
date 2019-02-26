@@ -1,5 +1,5 @@
 class Nodo:
-	def __init__(self, lista ):
+	def __init__(self, lista):
 		self.lista=lista
 		self.ruta_al_nodo= []
 
