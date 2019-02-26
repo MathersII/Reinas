@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/MathersII/Reinas/issues"
   },
-  "homepage": "https://github.com/MathersII/Reinas#readme"
+  "homepage": "https://github.com/MathersII/Reinas#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "python-shell": "^1.0.7",
+    "socket.io": "^2.2.0"
+  }
 }
