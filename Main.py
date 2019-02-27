@@ -5,10 +5,15 @@ import sys
 class Main(object):
 
 	def  __init__(self):
+		
 		self.estado_inicial = self.conseguir_estado_inicial()
 		ruta = self.conseguir_ruta(self.estado_inicial)
-		for x in ruta:
-			self.imprime_matriz(x)
+		#for x in ruta:
+		#	self.imprime_matriz(x)
+		#self.imprime_matriz(ruta.conseguir_tablero())
+		
+		#self.pruebas()
+
 	def conseguir_ruta(self, estado):
 		""" Por recursividad
 		#condiciones iniciales del problema
@@ -27,20 +32,30 @@ class Main(object):
 
 		#Condiciones iniciales
 		estado_actual = estado
-		estado_actual.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
+		#estado_actual.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
 		pila = Pila()
-		ruta_al_nodo = [estado_actual.conseguir_tablero()]
+		#ruta_al_nodo = [estado_actual.conseguir_tablero()]
 		visitados = []
 		#Busqueda por profundidad (DFS)
 		while(self.es_solucion(estado_actual)):
+			#self.imprime_matriz(estado_actual.conseguir_tablero())
 			visitados.append(estado_actual.conseguir_tablero())
 			hijos = self.crear_hijos(estado_actual)
-			for x in hijos:
-				if x not in visitados:
-					x.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
-					pila.push(x)
+			if len(hijos) != 0:
+				for x in hijos:
+					if x.conseguir_tablero() not in visitados:
+						x.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
+						pila.push(x)
+						self.imprime_matriz(visitados[len(visitados)-1])
+						#print("Hijo: \n")
+						#self.imprime_matriz(x.conseguir_tablero())
+						#print("======= \n")
+
 
 			estado_actual = pila.pop()
+			#self.imprime_matriz(estado_actual.conseguir_tablero())
+			visitados.append(estado_actual.conseguir_tablero())
+			self.imprime_matriz(visitados[len(visitados)-1])
 		estado_actual.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
 		return estado_actual.conseguir_ruta_nodo()
 
@@ -52,13 +67,25 @@ class Main(object):
 		print ("Implementar método...")
 
 	def crear_hijos(self, estado):
-		return list(map(lambda x: Nodo(self.llena_posiciones_prohibidas(x,estado.conseguir_tablero())),self.busca_posiciones(estado))) 
+		posiciones = self.busca_posiciones(estado)
+		if posiciones != -1:
+			Nodos = list(
+				map(
+					lambda x: Nodo(self.llena_posiciones_prohibidas(x,estado.conseguir_tablero())),posiciones
+					)
+				) 
+			return Nodos
+		else:
+			return []
 
 	def busca_posiciones(self, estado,lista = []):
 		for idxx, valx in enumerate(estado.conseguir_tablero()):
 			for idxy, valy in enumerate(valx):
 				if valy == 0 :
 					lista.append((idxx,idxy))
+
+		if len(lista) == 0:
+			return -1
 		return lista
 					
 	def llena_posiciones_prohibidas(self,posiciones,estado):
@@ -141,6 +168,11 @@ class Main(object):
 
 	def pruebas(self):
 		print  ("=== pruebas main ===")
+		estado_actual = self.conseguir_estado_inicial()
+		self.imprime_matriz(estado_actual.conseguir_tablero())
+		hijos = self.crear_hijos(estado_actual)
+		for x in hijos:
+			self.imprime_matriz(x.conseguir_tablero())
 		
 
 
