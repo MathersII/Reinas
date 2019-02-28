@@ -8,10 +8,8 @@ class Main(object):
 		
 		self.estado_inicial = self.conseguir_estado_inicial()
 		ruta = self.conseguir_ruta(self.estado_inicial)
-		#for x in ruta:
-		#	self.imprime_matriz(x)
-		#self.imprime_matriz(ruta.conseguir_tablero())
-		
+		for x in ruta:
+			self.imprime_matriz(x)
 		#self.pruebas()
 
 	def conseguir_ruta(self, estado):
@@ -38,28 +36,26 @@ class Main(object):
 		visitados = []
 		#Busqueda por profundidad (DFS)
 		while(self.es_solucion(estado_actual)):
-			#self.imprime_matriz(estado_actual.conseguir_tablero())
 			visitados.append(estado_actual.conseguir_tablero())
 			hijos = self.crear_hijos(estado_actual)
-			if len(hijos) != 0:
-				for x in hijos:
-					if x.conseguir_tablero() not in visitados:
-						x.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
-						pila.push(x)
-						self.imprime_matriz(visitados[len(visitados)-1])
-						#print("Hijo: \n")
-						#self.imprime_matriz(x.conseguir_tablero())
-						#print("======= \n")
-
-
+			for x in hijos:
+				if x.conseguir_tablero() not in visitados:
+					x.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
+					pila.push(x)
 			estado_actual = pila.pop()
-			#self.imprime_matriz(estado_actual.conseguir_tablero())
 			visitados.append(estado_actual.conseguir_tablero())
-			self.imprime_matriz(visitados[len(visitados)-1])
 		estado_actual.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
 		return estado_actual.conseguir_ruta_nodo()
 
 		 	
+	def conseguir_estado_inicial(self):
+		archivo_estado = open("estados.txt","r").read().split("\n")
+		tablero = []
+		for x in archivo_estado:
+			tablero.append([int(y) for y in x.strip('\n').split(",")])
+		tablero = self.llena_posiciones_prohibidas(self.busca_posiciones(tablero,2)[0],tablero)
+		return Nodo(tablero)
+
 	def crear_hijo(self, estado ):
 		print ("Implementar método...")
 		
@@ -67,25 +63,19 @@ class Main(object):
 		print ("Implementar método...")
 
 	def crear_hijos(self, estado):
-		posiciones = self.busca_posiciones(estado)
-		if posiciones != -1:
-			Nodos = list(
-				map(
-					lambda x: Nodo(self.llena_posiciones_prohibidas(x,estado.conseguir_tablero())),posiciones
-					)
-				) 
-			return Nodos
-		else:
-			return []
-
-	def busca_posiciones(self, estado,lista = []):
-		for idxx, valx in enumerate(estado.conseguir_tablero()):
+		Nodos = list(
+			map(
+				lambda x: Nodo(self.llena_posiciones_prohibidas(x,estado.conseguir_tablero())),self.busca_posiciones(estado.conseguir_tablero(),0)
+				)
+			) 
+		return Nodos
+		
+	def busca_posiciones(self, tablero,num):
+		lista = []
+		for idxx, valx in enumerate(tablero):
 			for idxy, valy in enumerate(valx):
-				if valy == 0 :
+				if valy == num :
 					lista.append((idxx,idxy))
-
-		if len(lista) == 0:
-			return -1
 		return lista
 					
 	def llena_posiciones_prohibidas(self,posiciones,estado):
@@ -145,7 +135,7 @@ class Main(object):
 			for y in x:
 				print(y, end="", flush=True)
 			print('\n')
-		print('\n\n\n')
+		print('\n\n')
 
 	def es_solucion(self, estado_actual):
 		tablero = estado_actual.conseguir_tablero()
@@ -159,12 +149,6 @@ class Main(object):
 		else:
 			return True
 			
-	def conseguir_estado_inicial(self):
-		archivo_estado = open("estados.txt","r").read().split("\n")
-		tablero = []
-		for x in archivo_estado:
-			tablero.append([int(y) for y in x.split(",")])
-		return Nodo(tablero)
 
 	def pruebas(self):
 		print  ("=== pruebas main ===")
@@ -174,8 +158,6 @@ class Main(object):
 		for x in hijos:
 			self.imprime_matriz(x.conseguir_tablero())
 		
-
-
 if __name__ == '__main__':
 	main = Main()
 
