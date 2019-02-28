@@ -6,19 +6,13 @@ import copy
 class Main(object):
 
 	def  __init__(self):
-		self.visitados = []
-		self.index = 0
 		self.estado_inicial = self.conseguir_estado_inicial()
-		ruta = self.conseguir_ruta(self.estado_inicial)
-		for x in ruta.conseguir_ruta_nodo():
-			self.imprime_matriz(x)
-		#self.imprime_matriz(ruta.conseguir_tablero())
-		
-		self.pruebas()
-
+		estado_final = self.conseguir_ruta(self.estado_inicial)
+		#for x in estado_final.conseguir_ruta_nodo():
+		#	self.imprime_matriz(x)
+		self.enviar_interfaz_grafica(estado_final)
 
 	def conseguir_ruta(self, estado):
-		
 		#Condiciones iniciales
 		estado_actual = estado
 		pila = Pila()
@@ -119,7 +113,7 @@ class Main(object):
 			for y in x:
 				print(y, end="", flush=True)
 			print('\n')
-		print('\n\n\n')
+		print('\n\n')
 
 	def es_solucion(self, estado_actual):
 		tablero = estado_actual.conseguir_tablero()
@@ -132,13 +126,34 @@ class Main(object):
 			return False
 		else:
 			return True
-			
+	
 	def conseguir_estado_inicial(self):
-		archivo_estado = open("estados.txt","r").read().split("\n")
+		archivo_estado = open("./servidor/src/estados.txt","r").read().split("\n")
 		tablero = []
 		for x in archivo_estado:
 			tablero.append([int(y) for y in x.split(",")])
-		return Nodo(tablero)
+		return Nodo(tablero)	
+
+	def enviar_interfaz_grafica(self, estado_final):
+		idx = [0, 0, 0]
+		cadena = ""
+		#print(estado_final.conseguir_ruta_nodo())
+		for x in estado_final.conseguir_ruta_nodo():#accesamos a las matrices
+			idx[0] = idx[0] + 1
+			for y in x: #accesamos a las filas 
+				idx[1] = idx[1] + 1
+				for z in y: #accesamos a cada elemento
+					idx[2] = idx[2] + 1
+					cadena = cadena + str(z)
+
+					cadena = cadena + "," if idx[2] < len(y) else cadena + ""
+				idx[2] = 0
+				cadena = cadena + "." if idx[1] < len(x) else cadena + ""
+			idx[1] = 0
+			cadena = cadena + ":" if idx[0] < len(estado_final.conseguir_ruta_nodo()) else  cadena + ""
+		print(cadena)
+
+
 
 	def pruebas(self):
 		print  ("=== pruebas main ===")

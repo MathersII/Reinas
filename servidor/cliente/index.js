@@ -6,7 +6,7 @@ var boton_solucion = document.getElementById('conseguir-solucion');
 
 //Button function
 boton_solucion.addEventListener('click', function(){
-	//===Debug area
+	/*//===Debug area
 	var estados = crear_estado_prueba();
 	console.log(estados);
 	estados.forEach(estado => {
@@ -14,7 +14,7 @@ boton_solucion.addEventListener('click', function(){
 		espacio_solucion.appendChild(nuevo_tablero);
 	});
 	
-	//====
+	//====*/
 	//emitir mensaje a python
 	socket.emit('request', "solucion");
 
@@ -22,7 +22,8 @@ boton_solucion.addEventListener('click', function(){
 
 //Socket function
 socket.on('response', function(message){
-	console.log("Desde python: "+message);
+	//console.log("Desde python: "+message);
+	
 	var estados = cadena_matriz(message); //lista con tableros
 	estados.forEach(estado => {
 		nuevo_tablero = crear_tablero(estado);
@@ -57,7 +58,21 @@ function cadena_matriz(message){
 	var estados = [];
 
 	//transformación
-	console.log("implementar función");
+	var matrices = message.split(":")
+	matrices.forEach(matriz => {
+		var nueva_matriz = [];
+		filas = matriz.split(".");
+		filas.forEach(fila => {
+			var nueva_fila = [];
+			items = fila.split(",")
+			items.forEach(item => {
+				var nuevo_item = parseInt(item)
+				nueva_fila.push(nuevo_item);
+			});
+			nueva_matriz.push(nueva_fila);
+		});
+		estados.push(nueva_matriz);
+	});
 
 	return estados
 }
