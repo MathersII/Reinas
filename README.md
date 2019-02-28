@@ -4,7 +4,7 @@ Este programa se realizó para la clase de Inteligencia Artificial.
 
 Para ejecutar el programa se debe contar con:
 
- - Node.js
+ - Node 8
  - Python 3.6
 
 El procedimiento de instalación y ejecución es el siguiente:
@@ -14,3 +14,9 @@ El procedimiento de instalación y ejecución es el siguiente:
  3. Luego ejecutar: npm install
  4. Después ejecutar: npm start
  5. Por último, accedes desde tu navegador a: localhost:3000 
+
+En la carpeta img se muestran imágenes del funcionamiento de
+la interfaz gráfica.
+
+El programa implemente dos formas de realizar una búsqueda
+por profundiad, una recursiva y otra funcional.
