@@ -7,12 +7,27 @@ class Main(object):
 
 	def  __init__(self):
 		self.estado_inicial = self.conseguir_estado_inicial()
-		estado_final = self.conseguir_ruta(self.estado_inicial)
-		#for x in estado_final.conseguir_ruta_nodo():
-		#	self.imprime_matriz(x)
-		self.enviar_interfaz_grafica(estado_final)
+		#estado_final = self.conseguir_ruta_iterativa(self.estado_inicial)
+		ruta = self.conseguir_ruta_recursivamente(self.estado_inicial)[1]
+		self.enviar_interfaz_grafica(ruta)
 
-	def conseguir_ruta(self, estado):
+
+	def conseguir_ruta_recursivamente(self, estado, solucion = []):
+		#self.imprime_matriz(estado.conseguir_tablero())
+		if(self.es_solucion(estado) == False):
+			solucion.insert(0,estado.conseguir_tablero())
+			return (True,solucion)
+		#Busqueda por profundidad (DFS)
+		hijos = self.crear_hijos(estado)
+		estado.set_hijos(hijos)
+		while(len(estado.get_hijos()) > 0):
+			if(self.conseguir_ruta_recursivamente(estado.get_hijo())[0]):
+				solucion.insert(0,estado.conseguir_tablero())
+				return (True,solucion)
+		return (False,solucion)
+
+
+	def conseguir_ruta_iterativa(self, estado):
 		#Condiciones iniciales
 		estado_actual = estado
 		pila = Pila()
@@ -134,11 +149,10 @@ class Main(object):
 			tablero.append([int(y) for y in x.split(",")])
 		return Nodo(tablero)	
 
-	def enviar_interfaz_grafica(self, estado_final):
+	def enviar_interfaz_grafica(self, ruta):
 		idx = [0, 0, 0]
 		cadena = ""
-		#print(estado_final.conseguir_ruta_nodo())
-		for x in estado_final.conseguir_ruta_nodo():#accesamos a las matrices
+		for x in ruta:
 			idx[0] = idx[0] + 1
 			for y in x: #accesamos a las filas 
 				idx[1] = idx[1] + 1
@@ -150,7 +164,7 @@ class Main(object):
 				idx[2] = 0
 				cadena = cadena + "." if idx[1] < len(x) else cadena + ""
 			idx[1] = 0
-			cadena = cadena + ":" if idx[0] < len(estado_final.conseguir_ruta_nodo()) else  cadena + ""
+			cadena = cadena + ":" if idx[0] < len(ruta) else  cadena + ""
 		print(cadena)
 
 
