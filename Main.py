@@ -5,7 +5,6 @@ import sys
 class Main(object):
 
 	def  __init__(self):
-		
 		self.estado_inicial = self.conseguir_estado_inicial()
 		ruta = self.conseguir_ruta(self.estado_inicial)
 		for x in ruta:
@@ -13,26 +12,9 @@ class Main(object):
 		#self.pruebas()
 
 	def conseguir_ruta(self, estado):
-		""" Por recursividad
-		#condiciones iniciales del problema
-		estado_actual= estado
-
-		#Busqueda por profundidad (DFS)
-		while (es_solucion(estado_actual.conseguir_tablero())):
-		 	hijo= crear_hijo(estado_actual)
-		 	if hijo != 0:
-
-		 		estado_actual=self.conseguir_ruta(hijo)
-		 	else:
-		 		estado_actual= self.crear_hijo(estado_actual.conseguir_padre())
-		return estado_actual
-		"""
-
 		#Condiciones iniciales
 		estado_actual = estado
-		#estado_actual.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
 		pila = Pila()
-		#ruta_al_nodo = [estado_actual.conseguir_tablero()]
 		visitados = []
 		#Busqueda por profundidad (DFS)
 		while(self.es_solucion(estado_actual)):
@@ -43,7 +25,6 @@ class Main(object):
 					x.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
 					pila.push(x)
 			estado_actual = pila.pop()
-			visitados.append(estado_actual.conseguir_tablero())
 		estado_actual.establecer_ruta_nodo(estado_actual.conseguir_ruta_nodo(), estado_actual.conseguir_tablero())
 		return estado_actual.conseguir_ruta_nodo()
 
